@@ -1,0 +1,28 @@
+on:
+  workflow_call:
+    inputs:
+      cumulusci-version:
+        required: false
+        type: string
+      sfdx-version:
+        required: false
+        type: string
+    secrets:
+      dev-hub-auth-url:
+        required: true
+
+jobs:
+  feature-test-2gp:
+    name: "Feature Test - 2GP"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cumulus-actions/build-feature-test-package@v1
+        with:
+          dev-hub-auth-url: ${{ secrets.dev-hub-auth-url }}
+          cumulusci-version: '${{ inputs.cumulusci-version }}'
+          sfdx-version: '${{ inputs.sfdx-version }}'
+      - uses: cumulus-actions/feature-test-2gp@v1
+        with:
+          dev-hub-auth-url: ${{ secrets.dev-hub-auth-url }}
+          cumulusci-version: '${{ inputs.cumulusci-version }}'
+          sfdx-version: '${{ inputs.sfdx-version }}'
